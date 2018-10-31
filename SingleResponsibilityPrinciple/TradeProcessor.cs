@@ -19,6 +19,7 @@ namespace SingleResponsibilityPrinciple
                 while ((line = reader.ReadLine()) != null)
                 {
                     tradeData.Add(line);
+                    Console.WriteLine(line);
                 }
             }
             return tradeData;
@@ -67,6 +68,21 @@ namespace SingleResponsibilityPrinciple
                 LogMessage("WARN: Trade amount on line {0} not a valid integer: '{1}'", currentLine, fields[1]);
                 return false;
             }
+            else if (int.Parse(fields[1]) == 0) // solves TestBadTrade_ZeroQty
+            {
+                LogMessage("WARN: Trade amount on line {0} has to be greater than 0.", currentLine, fields[1]);
+                return false;
+            }
+            else if (int.Parse(fields[1]) >= 1000000) // solves TestBadTrade_QuantityOneMillion
+            {
+                LogMessage("WARN: Trade amount on line {0} has to be less than 1000000 (One Million).", currentLine, fields[1]);
+                return false;
+            }
+            else if (int.Parse(fields[1]) < 0) // solves TestBadTrade_negQty
+            {
+                LogMessage("WARN: Trade amount on line {0} cannot be less than 0.", currentLine, fields[1]);
+                return false;
+            }
 
             decimal tradePrice;
             if (!decimal.TryParse(fields[2], out tradePrice))
@@ -74,6 +90,22 @@ namespace SingleResponsibilityPrinciple
                 LogMessage("WARN: Trade price on line {0} not a valid decimal: '{1}'", currentLine, fields[2]);
                 return false;
             }
+            else if (decimal.Parse(fields[2]) == 0) // solves TestBadTrade_ZeroForPrice
+            {
+                LogMessage("WARN: Trade price on line {0} cannot be equal to zero.", currentLine, fields[2]);
+                return false;
+            }
+            else if (decimal.Parse(fields[2]) < 0) // solves TestBadTrade_negPrice
+            {
+                LogMessage("WARN: Trade price on line {0} cannot be less than zero.", currentLine, fields[2]);
+                return false;
+            }
+            else if (Decimal.Round(decimal.Parse(fields[2]), 2) != decimal.Parse(fields[2])) // solves TestBadTrade_ExtraDecimalPlace
+            {
+                LogMessage("WARN: Trade price on line {0} cannot contain more than 2 decimal places: '{1}", currentLine, fields[2]);
+                return false;
+            }
+
 
             return true;
         }

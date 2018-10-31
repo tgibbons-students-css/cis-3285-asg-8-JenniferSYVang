@@ -81,10 +81,16 @@
     <EmbeddedResource Include="badTrades_negPrice.txt" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="badTrades_spacesAfterComma.txt" />
+    <EmbeddedResource Include="badTrades_extraDecimalPlace.txt" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="badTrades - Copy.txt" />
+    <EmbeddedResource Include="badTrades_QtyOneMill.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="badTrades_ZeroQty.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="badTrades_zeroForPrice.txt" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
